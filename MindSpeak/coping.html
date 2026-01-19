@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MindSpeak</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="Mental Health Awareness Website" />
+<meta name="author" content="UiTM IMD318 Group Project" />
+
+<link rel="icon" href="img/favicon.png" type="image/x-icon">
+
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="css/jcarousel.css" rel="stylesheet" />
+<link href="css/flexslider.css" rel="stylesheet" />
+<link href="js/owl-carousel/owl.carousel.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet" />
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" />
+
+<style>
+/* =========================
+   DAILY THOUGHT (FIX SPACING)
+========================= */
+.compact-affirmation-wrapper {
+    padding: 45px 0;
+    background: #ffffff;
+}
+
+.compact-affirmation-card {
+    background: linear-gradient(135deg, #2e8b57 0%, #1e5d3a 100%);
+    color: white;
+    padding: 44px 30px;              /* more balanced */
+    border-radius: 22px;
+    max-width: 750px;
+    margin: 0 auto;
+    text-align: center;
+    box-shadow: 0 10px 26px rgba(0,0,0,0.16);
+    position: relative;
+
+    /* spacing control */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 14px;                       /* consistent spacing */
+}
+
+.compact-affirmation-card h4 {
+    color: rgba(255,255,255,0.90) !important;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0;                       /* remove messy margin */
+    font-weight: 800;
+}
+
+.affirmation-text {
+    font-size: 22px;
+    font-style: italic;
+    color: #ffffff;
+    line-height: 1.6;
+    font-family: 'Georgia', serif;
+    margin: 0;                       /* spacing handled by gap */
+    max-width: 620px;
+}
+
+.btn-affirm-small {
+    background: rgba(255, 255, 255, 0.18);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    padding: 10px 24px;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    font-size: 12px;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.btn-affirm-small:hover {
+    background: white;
+    color: #2e8b57;
+    transform: scale(1.05);
+    text-decoration: none;
+}
+
+/* =========================
+   BUTTONS (KEEP GREEN)
+========================= */
+.btn-green{
+    background: #2e8b57;
+    border: 1px solid #2e8b57;
+    color: #fff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 800;
+    transition: 0.25s ease;
+}
+.btn-green:hover{
+    background: #1e5d3a;
+    border-color: #1e5d3a;
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.btn-outline-green{
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.6);
+    color: #ffffff;
+    border-radius: 30px;
+    padding: 10px 20px;
+    font-weight: 800;
+    transition: 0.25s ease;
+}
+.btn-outline-green:hover{
+    background: rgba(255,255,255,0.14);
+    color: #ffffff;
+    transform: translateY(-1px);
+}
+
+/* =========================
+   BREATHING TOOL (MORE STRIKING GREEN)
+========================= */
+.breath-card{
+    background: linear-gradient(135deg, #1e5d3a 0%, #2e8b57 55%, #37b070 100%);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.10);
+    margin: 22px 0 28px;
+    color: #ffffff;
+    border: 1px solid rgba(255,255,255,0.18);
+    position: relative;
+    overflow: hidden;
+}
+.breath-card:before{
+    content:"";
+    position:absolute;
+    top:-60px; right:-60px;
+    width:160px; height:160px;
+    background: rgba(255,255,255,0.10);
+    border-radius: 50%;
+}
+.breath-card h3{
+    margin-top: 0;
+    font-weight: 900;
+    color: #ffffff;
+}
+.breath-card p{
+    color: rgba(255,255,255,0.90);
+}
+.breath-circle{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 18px auto 10px;
+    background: rgba(255,255,255,0.14);
+    border: 2px solid rgba(255,255,255,0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    color: #ffffff;
+    transition: transform 1s ease, background 1s ease;
+}
+.breath-in{
+    transform: scale(1.18);
+    background: rgba(255,255,255,0.22);
+}
+.breath-out{
+    transform: scale(0.92);
+    background: rgba(255,255,255,0.10);
+}
+.breath-status{
+    text-align: center;
+    font-weight: 800;
+    color: #ffffff;
+    min-height: 24px;
+}
+.breath-timer{
+    text-align: center;
+    color: rgba(255,255,255,0.85);
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+/* =========================
+   QUIZ (MORE STRIKING GREEN)
+========================= */
+.quiz-card{
+    background: linear-gradient(135deg, #1e5d3a 0%, #2e8b57 55%, #37b070 100%);
+    border-radius: 20px;
+    padding: 26px;
+    box-shadow: 0 12px 26px rgba(0,0,0,0.10);
+    border: 1px solid rgba(255,255,255,0.18);
+    margin: 0 0 30px;
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+}
+.quiz-card:before{
+    content:"";
+    position:absolute;
+    bottom:-70px; left:-70px;
+    width:200px; height:200px;
+    background: rgba(255,255,255,0.10);
+    border-radius: 50%;
+}
+.quiz-card h3{
+    margin-top: 0;
+    font-weight: 900;
+    color: #ffffff;
+}
+.quiz-card p{
+    color: rgba(255,255,255,0.90);
+}
+
+.quiz-q{
+    margin: 12px 0;
+    padding: 14px 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.18);
+}
+.quiz-q strong{
+    display: block;
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+.quiz-q label{
+    font-weight: 700;
+    color: rgba(255,255,255,0.95);
+}
+.quiz-actions{
+    margin-top: 16px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.quiz-result{
+    margin-top: 16px;
+    padding: 14px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.14);
+    border: 1px solid rgba(255,255,255,0.20);
+    display: none;
+    color: #ffffff;
+}
+.result-badge{
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    margin-right: 8px;
+    background: rgba(255,255,255,0.22);
+    color: #ffffff;
+}
+</style>
+</head>
+
+<body>
+<div id="wrapper">
+
+<header>
+<div class="navbar navbar-default navbar-static-top">
+<div class="container">
+<div class="navbar-header">
+<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+<span class="icon-bar"></span>
+</button>
+<a class="navbar-brand" href="index.html">
+<img src="img/logo.jpg" alt="Mental Health Awareness Logo"/>
+</a>
+</div>
+
+<div class="navbar-collapse collapse">
+<ul class="nav navbar-nav">
+<li><a href="index.html">Home</a></li>
+<li><a href="about.html">About Mental Health</a></li>
+<li><a href="issues.html">Issues</a></li>
+<li><a href="symptoms.html">Symptoms</a></li>
+<li class="active"><a href="coping.html">Coping Strategies</a></li>
+<li><a href="selfcare.html">Selfcare</a></li>
+<li><a href="support.html">Support</a></li>
+<li><a href="contact.html">Contact</a></li>
+</ul>
+</div>
+</div>
+</div>
+</header>
+
+<section id="inner-headline">
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="pageTitle" data-aos="fade-up">Mental Health Coping Strategies</h2>
+        </div>
+    </div>
+</div>
+</section>
+
+<section id="content">
+<div class="container content">
+
+<!-- Coping Strategy Blocks -->
+<div class="row service-v1 margin-bottom-40">
+
+    <div class="col-md-4 md-margin-bottom-40" data-aos="zoom-in">
+        <img class="img-responsive" src="img/stress.png" alt="">
+        <h2>Stress Management</h2>
+        <p>
+            Stress is a common part of everyday life. Simple coping strategies such as time management,
+            relaxation techniques, and taking short breaks can help reduce stress and improve overall well-being.
+        </p>
+    </div>
+
+    <div class="col-md-4" data-aos="zoom-in" data-aos-delay="150">
+        <img class="img-responsive" src="img/emotion.png" alt="">
+        <h2>Emotional Regulation</h2>
+        <p>
+            Understanding and managing emotions is essential for mental health. Practices such as journaling,
+            deep breathing, and mindfulness can help anyone process emotions in a healthy and positive way.
+        </p>
+    </div>
+
+    <div class="col-md-4 md-margin-bottom-40" data-aos="zoom-in" data-aos-delay="300">
+        <img class="img-responsive" src="img/seekingsupport.png" alt="">
+        <h2>Seeking Support</h2>
+        <p>
+            Reaching out for help is a sign of strength. Individuals are encouraged to seek support from
+            friends, family, counselors, or professional mental health services when feeling overwhelmed.
+        </p>
+    </div>
+
+</div>
+<!-- End Coping Strategy Blocks -->
+
+<hr class="margin-bottom-50">
+
+<!-- ✅ MOVED ICON INFO BLOCKS ABOVE BREATHING + QUIZ -->
+<div class="row">
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up">
+        <i class="icon-info-blocks fa fa-bell-o"></i>
+        <div class="info-blocks-in">
+            <h3>Self-Care Practices</h3>
+            <p>
+                Regular self-care such as proper sleep, healthy eating, and physical activity
+                helps maintain emotional balance and reduces anxiety.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up" data-aos-delay="150">
+        <i class="icon-info-blocks fa fa-hdd-o"></i>
+        <div class="info-blocks-in">
+            <h3>Healthy Routines</h3>
+            <p>
+                Establishing daily routines provides structure and stability,
+                helping people stay focused and manage their mental health effectively.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up" data-aos-delay="300">
+        <i class="icon-info-blocks fa fa-lightbulb-o"></i>
+        <div class="info-blocks-in">
+            <h3>Positive Thinking</h3>
+            <p>
+                Practicing positive thinking and self-compassion helps people cope
+                with challenges and reduces negative thought patterns.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up">
+        <i class="icon-info-blocks fa fa-code"></i>
+        <div class="info-blocks-in">
+            <h3>Mindfulness Techniques</h3>
+            <p>
+                Mindfulness activities such as meditation and breathing exercises
+                help people stay present and reduce stress.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up" data-aos-delay="150">
+        <i class="icon-info-blocks fa fa-compress"></i>
+        <div class="info-blocks-in">
+            <h3>Managing Academic Pressure</h3>
+            <p>
+                Breaking tasks into smaller goals and avoiding procrastination
+                can help people cope with academic stress more effectively.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-sm-4 info-blocks" data-aos="fade-up" data-aos-delay="300">
+        <i class="icon-info-blocks fa fa-html5"></i>
+        <div class="info-blocks-in">
+            <h3>Knowing When to Get Help</h3>
+            <p>
+                Understanding when professional help is needed is important.
+                people should seek counseling if stress or anxiety becomes overwhelming.
+            </p>
+        </div>
+    </div>
+
+</div>
+
+<hr class="margin-bottom-50">
+
+<!-- ✅ BREATHING TOOL (GREEN + STRIKING) -->
+<div class="breath-card" data-aos="fade-up">
+    <h3>30-Second Breathing Exercise</h3>
+    <p>
+        Click start and follow the circle. Inhale and exhale slowly to calm your mind.
+    </p>
+
+    <div id="breathCircle" class="breath-circle">Breathe</div>
+    <div id="breathStatus" class="breath-status">Ready when you are.</div>
+    <div id="breathTimer" class="breath-timer">Time: 0s / 30s</div>
+
+    <div class="text-center" style="margin-top:14px;">
+        <button class="btn-green" onclick="startBreathing()">Start</button>
+        <button class="btn-outline-green" onclick="stopBreathing()">Stop</button>
+    </div>
+</div>
+
+<!-- ✅ MINI SELF-CHECK (GREEN + STRIKING) -->
+<div class="quiz-card" data-aos="fade-up">
+    <h3>Mini Stress Self-Check</h3>
+    <p>Answer honestly. This is not a diagnosis — it just gives a small suggestion.</p>
+
+    <div class="quiz-q">
+        <strong>1) I feel overwhelmed with tasks.</strong>
+        <label><input type="radio" name="q1" value="0"> Never</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q1" value="1"> Sometimes</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q1" value="2"> Often</label>
+    </div>
+
+    <div class="quiz-q">
+        <strong>2) I have trouble sleeping or resting.</strong>
+        <label><input type="radio" name="q2" value="0"> Never</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q2" value="1"> Sometimes</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q2" value="2"> Often</label>
+    </div>
+
+    <div class="quiz-q">
+        <strong>3) I find it hard to focus in class/work.</strong>
+        <label><input type="radio" name="q3" value="0"> Never</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q3" value="1"> Sometimes</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q3" value="2"> Often</label>
+    </div>
+
+    <div class="quiz-q">
+        <strong>4) I feel like I need support but I keep it to myself.</strong>
+        <label><input type="radio" name="q4" value="0"> Never</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q4" value="1"> Sometimes</label>&nbsp;&nbsp;
+        <label><input type="radio" name="q4" value="2"> Often</label>
+    </div>
+
+    <div class="quiz-actions">
+        <button class="btn-green" onclick="checkStress()">Check Score</button>
+        <button class="btn-outline-green" onclick="resetQuiz()">Reset</button>
+    </div>
+
+    <div id="quizResult" class="quiz-result"></div>
+</div>
+
+</div>
+</section>
+
+<!-- DAILY THOUGHT -->
+<section class="compact-affirmation-wrapper">
+    <div class="container" data-aos="fade-up">
+        <div class="compact-affirmation-card">
+            <h4>Daily Thought</h4>
+            <p id="affirmation-text" class="affirmation-text">"Small steps everyday lead to big results."</p>
+            <button onclick="newAffirmation()" class="btn-affirm-small">
+                <i class="fa fa-random"></i> Refresh
+            </button>
+            <div style="font-size:12px; color:rgba(255,255,255,0.88);">
+                Tip: Click refresh to get a new thought.
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="row">
+
+      <div class="col-lg-3">
+        <div class="widget">
+          <h5 class="widgetheading">Mental Health Awareness Initiative</h5>
+          <address>
+            Online-based Support Platform
+          </address>
+        </div>
+      </div>
+
+      <div class="col-lg-3">
+        <div class="widget">
+          <h5 class="widgetheading">Quick Links</h5>
+          <ul class="link-list">
+            <li><a href="issues.html">Mental Health Issues</a></li>
+            <li><a href="coping.html">Coping Strategies</a></li>
+            <li><a href="support.html">Support Resources</a></li>
+            <li><a href="contact.html">Contact Us</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-lg-6">
+        <div class="widget">
+          <h5 class="widgetheading">Disclaimer</h5>
+          <p>This website is for informational purposes only and does not replace professional medical advice.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="sub-footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="copyright">
+            <p>
+              <span>&copy; MindSpeak 2026 All rights reserved. By </span>
+              <a href="http://mindspeak.github.io/mindspeak/" target="_blank">MindSpeak</a>
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <ul class="social-network">
+            <li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+            <li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+            <li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+            <li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
+            <li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus"></i></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+
+<script>
+$(window).load(function() {
+    AOS.init({ duration: 1000, once: true });
+});
+
+/* ===== AFFIRMATIONS ===== */
+const affirmations = [
+  "You are capable of handling whatever today throws at you.",
+  "Progress, not perfection. You are doing enough.",
+  "It is okay to take a break. Resting is productive.",
+  "Your mental health is more important than your grades.",
+  "You don't have to figure it all out today.",
+  "Be kind to yourself. You are working hard.",
+  "Every small step counts. Keep going.",
+  "You are stronger than you think.",
+  "Your feelings are valid, no matter what.",
+  "Challenges are opportunities to grow.",
+  "You are deserving of love and respect.",
+  "Mistakes are proof that you are trying.",
+  "You have overcome difficulties before, you can do it again.",
+  "Take things one moment at a time.",
+  "Self-care is not selfish, it’s necessary.",
+  "Believe in your ability to overcome obstacles.",
+  "Your effort matters, even if results take time.",
+  "You are more resilient than you realize.",
+  "It’s okay to ask for help when you need it.",
+  "Celebrate your small wins every day.",
+  "You are worthy just as you are.",
+  "Breathe deeply and let go of what you can’t control.",
+  "You bring value to the world simply by being you.",
+  "Your mind and body deserve rest and care.",
+  "Focus on progress, not comparison with others.",
+  "You are enough in this very moment.",
+  "Positivity grows from small daily habits.",
+  "It’s okay to feel uncertain; clarity comes with time.",
+  "Trust yourself and your instincts.",
+  "Your journey is unique, and that’s your strength."
+];
+
+function newAffirmation() {
+  const randomIndex = Math.floor(Math.random() * affirmations.length);
+  document.getElementById('affirmation-text').innerHTML = `"${affirmations[randomIndex]}"`;
+}
+newAffirmation();
+
+/* ===== BREATHING TOOL ===== */
+let breathInterval = null;
+let breathTime = 0;
+let breathPhase = "in";
+
+function startBreathing(){
+  stopBreathing();
+
+  const circle = document.getElementById("breathCircle");
+  const status = document.getElementById("breathStatus");
+  const timer = document.getElementById("breathTimer");
+
+  breathTime = 0;
+  breathPhase = "in";
+  status.innerText = "Inhale...";
+  circle.classList.add("breath-in");
+  circle.classList.remove("breath-out");
+
+  breathInterval = setInterval(() => {
+    breathTime++;
+    timer.innerText = `Time: ${breathTime}s / 30s`;
+
+    if (breathTime % 4 === 0) {
+      if (breathPhase === "in") {
+        breathPhase = "out";
+        status.innerText = "Exhale...";
+        circle.classList.remove("breath-in");
+        circle.classList.add("breath-out");
+      } else {
+        breathPhase = "in";
+        status.innerText = "Inhale...";
+        circle.classList.remove("breath-out");
+        circle.classList.add("breath-in");
+      }
+    }
+
+    if (breathTime >= 30) {
+      stopBreathing();
+      status.innerText = "Done. Nice work 💚";
+      timer.innerText = "Time: 30s / 30s";
+    }
+  }, 1000);
+}
+
+function stopBreathing(){
+  const circle = document.getElementById("breathCircle");
+  const status = document.getElementById("breathStatus");
+  const timer = document.getElementById("breathTimer");
+
+  if (breathInterval) clearInterval(breathInterval);
+  breathInterval = null;
+
+  circle.classList.remove("breath-in");
+  circle.classList.remove("breath-out");
+
+  if (breathTime === 0){
+    status.innerText = "Ready when you are.";
+    timer.innerText = "Time: 0s / 30s";
+  }
+}
+
+/* ===== MINI SELF-CHECK QUIZ ===== */
+function getVal(name){
+  const checked = document.querySelector(`input[name="${name}"]:checked`);
+  return checked ? parseInt(checked.value, 10) : null;
+}
+
+function checkStress(){
+  const q1 = getVal("q1");
+  const q2 = getVal("q2");
+  const q3 = getVal("q3");
+  const q4 = getVal("q4");
+
+  const resultBox = document.getElementById("quizResult");
+
+  if (q1 === null || q2 === null || q3 === null || q4 === null){
+    resultBox.style.display = "block";
+    resultBox.innerHTML = `<span class="result-badge">Reminder</span> Please answer all questions first.`;
+    return;
+  }
+
+  const score = q1 + q2 + q3 + q4;
+  let level = "";
+  let tips = "";
+
+  if (score <= 2){
+    level = "Low stress";
+    tips = "Keep your routine, sleep well, and continue small self-care habits.";
+  } else if (score <= 5){
+    level = "Moderate stress";
+    tips = "Try short breaks, small to-do lists, breathing exercises, and talk to a trusted friend.";
+  } else {
+    level = "High stress";
+    tips = "Please consider reaching out for support (friend/family/counselor). Focus on one task at a time.";
+  }
+
+  resultBox.style.display = "block";
+  resultBox.innerHTML = `
+    <span class="result-badge">${level}</span>
+    Your score: <strong>${score}/8</strong><br>
+    <div style="margin-top:8px; color:rgba(255,255,255,0.95);">Suggestion: ${tips}</div>
+  `;
+}
+
+function resetQuiz(){
+  ["q1","q2","q3","q4"].forEach(q => {
+    document.querySelectorAll(`input[name="${q}"]`).forEach(r => r.checked = false);
+  });
+  const resultBox = document.getElementById("quizResult");
+  resultBox.style.display = "none";
+  resultBox.innerHTML = "";
+}
+</script>
+
+</body>
+</html>
